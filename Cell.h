@@ -4,7 +4,7 @@
 class Cell
 {
 private:
-	bool is_empty;
+	bool is_empty=true;
 	Piece* piece = nullptr;
 public:
 	Cell();

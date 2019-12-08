@@ -1,8 +1,9 @@
 #include "Move.h"
 
 
-Move::Move(int si, int sj, int di, int dj)
+Move::Move(Color c, int si, int sj, int di, int dj)
 {
+	this->color = c;
 	this->source_i = si;
 	this->source_j = sj;
 	this->dest_i = di;

@@ -7,6 +7,8 @@
 #include "Knight.h"
 #include "Bishop.h"
 #include "Rook.h"
+#include <vector>
+class IValidator;
 
 
 class Board
@@ -16,6 +18,7 @@ private:
 	Board();
 	~Board();
 	static Board* instance;
+	std::vector<IValidator*> validators;
 
 public:
 	static Board* getInstance();

@@ -4,7 +4,8 @@ class ContextualValidator :
 	public IValidator
 {
 public:
-	ContextualValidator();
+	ContextualValidator(Board* b);
 	~ContextualValidator();
+	bool validate(Move*);
 };
 

@@ -1,10 +1,18 @@
 #include "Board.h"
+#include "OwnerValidator.h"
+#include "GeometricValidator.h"
+#include "ColorValidator.h"
+#include "ContextualValidator.h"
 #include <iostream>
 
 Board* Board::instance = 0;
 
 Board::Board()
 {
+	validators.push_back(new OwnerValidator(this));
+	validators.push_back(new GeometricValidator(this));
+	validators.push_back(new ColorValidator(this));
+	validators.push_back(new ContextualValidator(this));
 }
 
 
@@ -74,6 +82,13 @@ Piece* Board::getCellPiece(int i, int j)
 void Board::movePiece(Move* m)
 {
 	//TODO all the validations
+	bool validated = true;
+	for (int i = 0; i < validators.size(); i++)
+	{
+		if (!validators[i]->validate(m))
+			return;
+	}
+	
 	auto p = cells[m->source_i][m->source_j].getPiece();
 	cells[m->source_i][m->source_j].removePiece();
 	cells[m->dest_i][m->dest_j].addPiece(p);

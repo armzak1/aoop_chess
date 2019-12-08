@@ -1,11 +1,11 @@
 #pragma once
 #include "IValidator.h"
-class GeometricValidator :
+class ColorValidator :
 	public IValidator
 {
 public:
-	GeometricValidator(Board* b);
-	~GeometricValidator();
+	ColorValidator(Board* b);
+	~ColorValidator();
 	bool validate(Move*);
 };
 

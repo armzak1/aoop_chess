@@ -3,7 +3,7 @@
 #include <cmath>
 #include <string>
 
-enum Color { White, Black };
+enum Color { White = -1, Black = 1 };
 
 class Piece
 {

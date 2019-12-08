@@ -1,8 +1,9 @@
 #include "IValidator.h"
 
 
-IValidator::IValidator()
+IValidator::IValidator(Board* b)
 {
+	this->board = b;
 }
 
 
