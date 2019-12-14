@@ -14,6 +14,6 @@ Bishop::~Bishop()
 
 bool Bishop::canPerformMove(Move* m)
 {
-	return abs(m->source_i - m->dest_i) == abs(m->source_i - m->dest_j);
+	return abs(m->source_i - m->dest_i) == abs(m->source_j - m->dest_j);
 }
 

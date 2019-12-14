@@ -13,5 +13,6 @@ public:
 	Piece(Color);
 	~Piece();
 	virtual bool canPerformMove(Move*) = 0;
+
 };
 

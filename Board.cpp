@@ -3,16 +3,28 @@
 #include "GeometricValidator.h"
 #include "ColorValidator.h"
 #include "ContextualValidator.h"
+#include "OrderValidator.h"
+#include "NotifierAdapter.h"
+#include "MoveBoundValidator.h"
 #include <iostream>
 
 Board* Board::instance = 0;
 
 Board::Board()
 {
-	validators.push_back(new OwnerValidator(this));
-	validators.push_back(new GeometricValidator(this));
-	validators.push_back(new ColorValidator(this));
-	validators.push_back(new ContextualValidator(this));
+	afterFirstCapture = false;
+	auto mbv = new MoveBoundValidator(this);
+	auto ov = new OwnerValidator(this);
+	auto gv = new GeometricValidator(this);
+	auto cv = new ColorValidator(this);
+	auto ctxv = new ContextualValidator(this);
+	auto nv = new NotifierAdapter(this);
+	ctxv->setNext(nv);
+	cv->setNext(ctxv);
+	gv->setNext(cv);
+	ov->setNext(gv);
+	mbv->setNext(ov);
+	chain = mbv;
 }
 
 
@@ -71,6 +83,7 @@ void Board::printState()
 			std::cout << cells[i][j].getLabel() << " ";
 		std::cout << "\n";
 	}
+	std::cout << "\n";
 	return;
 }
 
@@ -79,16 +92,30 @@ Piece* Board::getCellPiece(int i, int j)
 	return cells[i][j].getPiece();
 }
 
+Color Board::getlastMoveColor()
+{
+	return instance->lastMoveColor;
+}
+
+void Board::notifyFirstCapture()
+{
+	if (instance->afterFirstCapture) 
+		return;
+	auto ov = new OrderValidator(this);
+	ov->setNext(instance->chain);
+	instance->chain = ov;
+	instance->afterFirstCapture = true;
+	std::cout << "First capture has been made. Please follow the order from this point on!";
+}
+
 void Board::movePiece(Move* m)
 {
-	//TODO all the validations
-	bool validated = true;
-	for (int i = 0; i < validators.size(); i++)
+	if (!chain->validate(m))
 	{
-		if (!validators[i]->validate(m))
-			return;
+		std::cout << "Move canceled.\n";
+		return;
 	}
-	
+	lastMoveColor = m->color;
 	auto p = cells[m->source_i][m->source_j].getPiece();
 	cells[m->source_i][m->source_j].removePiece();
 	cells[m->dest_i][m->dest_j].addPiece(p);

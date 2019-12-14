@@ -18,7 +18,9 @@ private:
 	Board();
 	~Board();
 	static Board* instance;
-	std::vector<IValidator*> validators;
+	IValidator* chain;
+	Color lastMoveColor;
+	bool afterFirstCapture;
 
 public:
 	static Board* getInstance();
@@ -27,5 +29,7 @@ public:
 	void printState();
 	Piece* getCellPiece(int, int);
 	void movePiece(Move*);
+	Color getlastMoveColor();
+	void notifyFirstCapture();
 };
 

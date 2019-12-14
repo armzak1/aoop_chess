@@ -11,7 +11,7 @@ GeometricValidator::~GeometricValidator()
 {
 }
 
-bool GeometricValidator::validate(Move* m)
+bool GeometricValidator::_validate(Move* m)
 {
 	auto p = this->board->getCellPiece(m->source_i, m->source_j);
 	return p == nullptr ? false : p->canPerformMove(m);

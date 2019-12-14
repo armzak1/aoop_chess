@@ -3,9 +3,13 @@
 class ColorValidator :
 	public IValidator
 {
+private: 
+	bool _validate(Move*);
+	std::string invalidMoveMessage = "You can't attack your own pieces!";
+
 public:
 	ColorValidator(Board* b);
 	~ColorValidator();
-	bool validate(Move*);
+	std::string getMessage() { return invalidMoveMessage; };
 };
 

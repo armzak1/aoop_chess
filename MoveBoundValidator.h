@@ -1,15 +1,15 @@
 #pragma once
 #include "IValidator.h"
-class GeometricValidator :
+class MoveBoundValidator :
 	public IValidator
 {
 private:
 	bool _validate(Move*);
-	std::string invalidMoveMessage = "Selected piece cannot move like this!";
+	std::string invalidMoveMessage = "Cell is out of bounds!";
 
 public:
-	GeometricValidator(Board* b);
-	~GeometricValidator();
+	MoveBoundValidator(Board*);
+	~MoveBoundValidator();
 	std::string getMessage() { return invalidMoveMessage; };
 };
 

@@ -11,7 +11,7 @@ ColorValidator::~ColorValidator()
 {
 }
 
-bool ColorValidator::validate(Move* m)
+bool ColorValidator::_validate(Move* m)
 {
 	auto startPiece = this->board->getCellPiece(m->source_i, m->source_j);
 	auto endPiece = this->board->getCellPiece(m->dest_i, m->dest_j);
@@ -21,6 +21,8 @@ bool ColorValidator::validate(Move* m)
 		return false;
 	if (startPiece->name[1] != 'P')
 		return true;
+	if ((startPiece->color != m->dest_i - m->source_i))
+		invalidMoveMessage = "Pawn cannot move in this direction!";
 	return (startPiece->color == m->dest_i - m->source_i);
 
 }

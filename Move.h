@@ -1,6 +1,6 @@
 #pragma once
 
-enum Color;
+const enum Color;
 class Move
 {
 	public:
